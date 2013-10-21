@@ -74,6 +74,22 @@ EOF;
         $this->assertSame('value', $array['key']);
     }
 
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testInvalidDecodeResponse()
+    {
+        $client = new Client($this->getConfig());
+
+        $rfl = new \ReflectionClass($client);
+        $method = $rfl->getMethod('decodeResponse');
+        $method->setAccessible(true);
+
+        $xml = '{ "key": "value" }';
+
+        $array = $method->invoke($client, $xml);
+    }
+
     public function testGetEndpoint()
     {
         $client = new Client($this->getConfig());
