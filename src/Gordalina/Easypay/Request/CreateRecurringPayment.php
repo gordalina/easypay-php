@@ -12,6 +12,7 @@
 namespace Gordalina\Easypay\Request;
 
 use Gordalina\Easypay\Config;
+use Gordalina\Easypay\Payment\Payment;
 use Gordalina\Easypay\Payment\RecurringPayment;
 
 class CreateRecurringPayment extends CreatePayment
@@ -50,7 +51,7 @@ class CreateRecurringPayment extends CreatePayment
         $parameters = parent::handleRequest($config);
 
         // If payment is of type boleto, lets unset it
-        if (isset($parameters['ep_type'])) {
+        if ($this->payment->getType() === Payment::TYPE_BOLETO) {
             unset($parameters['ep_type']);
         }
 
