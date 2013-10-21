@@ -1,0 +1,25 @@
+{
+    "name": "gordalina/easypay-php",
+    "type": "library",
+    "description": "PHP library to communicate with easypay.pt API",
+    "keywords": ["easypay"],
+    "homepage": "https://github.com/gordalina/easypay-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "gordalina",
+            "email": "samuel.gordalina@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "kriswallsmith/buzz": "@stable"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-0": { "Gordalina\\Easypay": "src/" }
+    }
+}
