@@ -107,7 +107,11 @@ EOF;
 
     public function testRequest()
     {
-        $stub = new ClientStub();
+        $stub = new ClientStub(function ($request, $response) {
+            $response->setHeaders(array('HTTP/1.1 200 OK'));
+            $response->setContent('<root><status>ok</status></root>');
+        });
+
         $client = new Client($this->getConfig(), $stub);
 
         $request = new RequestStub();
@@ -124,6 +128,22 @@ EOF;
         $this->assertSame('<root><status>ok</status></root>', $protocolResponse->getContent());
 
         $this->assertTrue($response->isValid());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testUnsuccessfulRequest()
+    {
+        $stub = new ClientStub(function ($request, $response) {
+            $response->setHeaders(array('HTTP/1.1 500 Error'));
+            $response->setContent('<root><status>err</status></root>');
+        });
+
+        $client = new Client($this->getConfig(), $stub);
+
+        $request = new RequestStub();
+        $response = $client->request($request);
     }
 
     protected function getBuzzClient(Client $client)

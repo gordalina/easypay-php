@@ -28,6 +28,16 @@ class ClientStub extends AbstractClient
     protected $response;
 
     /**
+     * @var callable
+     */
+    protected $callback;
+
+    public function __construct($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function send(RequestInterface $request, MessageInterface $response)
@@ -35,8 +45,9 @@ class ClientStub extends AbstractClient
         $this->request = $request;
         $this->response = $response;
 
-        $response->setHeaders(array('HTTP/1.1 200 OK'));
-        $response->setContent('<root><status>ok</status></root>');
+        if (is_callable($this->callback)) {
+            call_user_func($this->callback, $request, $response);
+        }
     }
 
     /**
