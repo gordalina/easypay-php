@@ -52,6 +52,14 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($payment, $request->getPayment());
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidPayment()
+    {
+        $request = new CreatePayment(new Payment());
+    }
+
     public function testKey()
     {
         $payment = new Payment();
