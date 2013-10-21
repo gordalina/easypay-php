@@ -143,14 +143,6 @@ class PaymentResult
     }
 
     /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Return array representation
      *
      * @return array
