@@ -13,7 +13,7 @@ namespace Gordalina\Easypay\Request;
 
 use Gordalina\Easypay\Config;
 use Gordalina\Easypay\Payment\PaymentResult;
-use Gordalina\Easypay\Response\RequestPayment as Response;
+use Gordalina\Easypay\Response\RequestPayment as RequestPaymentResponse;
 
 class RequestPayment implements RequestInterface
 {
@@ -74,6 +74,6 @@ class RequestPayment implements RequestInterface
      */
     public function handleResponse($response)
     {
-        return new Response($response);
+        return new RequestPaymentResponse($response);
     }
 }
