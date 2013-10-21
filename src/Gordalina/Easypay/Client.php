@@ -114,13 +114,7 @@ class Client
      */
     protected static function decodeResponse($content)
     {
-        $sxml = simplexml_load_string($content);
-
-        if ($sxml instanceof \SimpleXMLElement === false) {
-            throw new \RuntimeException("Could not decode server response content");
-        }
-
-        return (array) $sxml;
+        return (array) simplexml_load_string($content);
     }
 
     /**
