@@ -1,0 +1,11 @@
+before_commands:
+    - "composer install --prefer-source --no-dev"
+
+filter:
+    excluded_paths: [vendor/*, tests/*]
+
+tools:
+    php_cpd: true
+    php_pdepend:
+        excluded_dirs: [vendor, tests/*]
+    php_code_coverage: true
