@@ -12,6 +12,7 @@
 namespace Gordalina\Easypay\Tests\Request;
 
 use Gordalina\Easypay\Config;
+use Gordalina\Easypay\Payment\Payment;
 use Gordalina\Easypay\Payment\CustomerInfo;
 use Gordalina\Easypay\Payment\RecurringPayment;
 use Gordalina\Easypay\Request\CreateRecurringPayment;
@@ -52,6 +53,55 @@ class CreateRecurringPaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('10', $params['t_value']);
         $this->assertSame('yes', $params['ep_rec']);
         $this->assertSame('1D', $params['ep_rec_freq']);
+        $this->assertSame(null, $params['t_key']);
+    }
+
+    public function testNormalWithReturnUrl()
+    {
+        $payment = new RecurringPayment();
+        $payment->setValue(10);
+        $payment->setFrequency(RecurringPayment::DAILY);
+
+        $request = new CreateRecurringPayment($payment, 'url');
+        $params = $request->handleRequest($this->getConfig());
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(11, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('entity', $params['ep_entity']);
+        $this->assertSame('language', $params['ep_language']);
+        $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('auto', $params['ep_ref_type']);
+        $this->assertSame('10', $params['t_value']);
+        $this->assertSame('yes', $params['ep_rec']);
+        $this->assertSame('1D', $params['ep_rec_freq']);
+        $this->assertSame('url', $params['ep_rec_url']);
+        $this->assertSame(null, $params['t_key']);
+    }
+
+    public function testRecurringBoleto()
+    {
+        $payment = new RecurringPayment();
+        $payment->setValue(10);
+        $payment->setFrequency(RecurringPayment::DAILY);
+        $payment->setType(Payment::TYPE_BOLETO);
+
+        $request = new CreateRecurringPayment($payment, 'url');
+        $params = $request->handleRequest($this->getConfig());
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(11, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('entity', $params['ep_entity']);
+        $this->assertSame('language', $params['ep_language']);
+        $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('auto', $params['ep_ref_type']);
+        $this->assertSame('10', $params['t_value']);
+        $this->assertSame('yes', $params['ep_rec']);
+        $this->assertSame('1D', $params['ep_rec_freq']);
+        $this->assertSame('url', $params['ep_rec_url']);
         $this->assertSame(null, $params['t_key']);
     }
 
