@@ -25,7 +25,7 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
             'ep_value' => '12.3',
             't_key' => 'key',
             'ep_link' => 'link',
-            'ep_boleto_link' => 'boleto_link',
+            'ep_boleto' => 'boleto_link',
             'ep_status' => 'ok0',
             'ep_message' => 'message',
         ));

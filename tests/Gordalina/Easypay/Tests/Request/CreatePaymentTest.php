@@ -201,7 +201,7 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
             'ep_value' => '10.0',
             't_key' => 'key',
             'ep_link' => 'link',
-            'ep_boleto_link' => 'link2',
+            'ep_boleto' => 'link2',
         ));
 
         $this->assertInstanceOf('Gordalina\Easypay\Response\CreatePayment', $response);
