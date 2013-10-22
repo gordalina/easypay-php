@@ -35,4 +35,20 @@ class ResponseStub implements ResponseInterface
     {
         return $this->status === 'ok';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMessage()
+    {
+        return 'error';
+    }
 }

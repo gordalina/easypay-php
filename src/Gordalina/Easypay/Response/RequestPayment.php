@@ -97,7 +97,7 @@ class RequestPayment implements ResponseInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getStatus()
     {
@@ -105,7 +105,7 @@ class RequestPayment implements ResponseInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getMessage()
     {

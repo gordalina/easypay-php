@@ -17,4 +17,14 @@ interface ResponseInterface
      * @return boolean
      */
     public function isValid();
+
+    /**
+     * @return string
+     */
+    public function getStatus();
+
+    /**
+     * @return string
+     */
+    public function getMessage();
 }

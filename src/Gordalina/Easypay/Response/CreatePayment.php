@@ -156,7 +156,7 @@ class CreatePayment implements ResponseInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getStatus()
     {
@@ -164,7 +164,7 @@ class CreatePayment implements ResponseInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getMessage()
     {
