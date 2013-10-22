@@ -137,6 +137,22 @@ EOF;
     {
         $stub = new ClientStub(function ($request, $response) {
             $response->setHeaders(array('HTTP/1.1 500 Error'));
+            $response->setContent('<root><status>ok</status></root>');
+        });
+
+        $client = new Client($this->getConfig(), $stub);
+
+        $request = new RequestStub();
+        $response = $client->request($request);
+    }
+
+    /**
+     * @expectedException Gordalina\Easypay\Exception\ApiException
+     */
+    public function testErrorRequest()
+    {
+        $stub = new ClientStub(function ($request, $response) {
+            $response->setHeaders(array('HTTP/1.1 200 Ok'));
             $response->setContent('<root><status>err</status></root>');
         });
 
