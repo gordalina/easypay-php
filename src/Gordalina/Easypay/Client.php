@@ -17,6 +17,7 @@ use Buzz\Client\FileGetContents;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
 
+use Gordalina\Easypay\Exception\ApiException;
 use Gordalina\Easypay\Request\RequestInterface;
 
 class Client
@@ -79,7 +80,8 @@ class Client
      * @param  string            $method
      * @param  array             $parameters
      * @return string            Content of server response
-     * @throws \RuntimeException If response from API is invalid
+     * @throws ApiException      If response is not valid
+     * @throws \RuntimeException If request fails
      */
     public function request(RequestInterface $method)
     {
@@ -98,8 +100,13 @@ class Client
         }
 
         $content = static::decodeResponse($response->getContent());
+        $response = $method->handleResponse($content);
 
-        return $method->handleResponse($content);
+        if ($response->isValid()) {
+            return $response;
+        }
+
+        throw new ApiException($response->getMessage(), $response->getStatus());
     }
 
     /**
@@ -114,7 +121,19 @@ class Client
      */
     protected static function decodeResponse($content)
     {
-        return (array) simplexml_load_string($content);
+        $data = (array) simplexml_load_string($content);
+
+        foreach ($data as $key => $value) {
+            if ($value instanceof \SimpleXMLElement) {
+                if ($value->count()) {
+                    $data[$key] = static::decodeResponse($value);
+                } else {
+                    $data[$key] = null;
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -124,6 +143,6 @@ class Client
      */
     protected function getEndpoint()
     {
-        return !$this->sandbox ? static::ENDPOINT_PRODUCTION : static::ENDPOINT_SANDBOX;
+        return $this->sandbox ? static::ENDPOINT_SANDBOX : static::ENDPOINT_PRODUCTION ;
     }
 }
