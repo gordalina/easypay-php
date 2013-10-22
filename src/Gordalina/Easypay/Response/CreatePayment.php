@@ -73,13 +73,16 @@ class CreatePayment implements ResponseInterface
         $this->entity = $content['ep_entity'];
         $this->reference = $content['ep_reference'];
         $this->value = (float) $content['ep_value'];
-        $this->key = $content['t_key'];
         $this->link = $content['ep_link'];
         $this->status = $content['ep_status'];
         $this->message = $content['ep_message'];
 
-        if (isset($content['ep_boleto_link'])) {
-            $this->boletoLink = $content['ep_boleto_link'];
+        if (isset($content['t_key'])) {
+            $this->key = $content['t_key'];
+        }
+
+        if (isset($content['ep_boleto'])) {
+            $this->boletoLink = $content['ep_boleto'];
         }
     }
 
