@@ -17,4 +17,20 @@
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
+
+    <groups>
+        <exclude>
+            <group>integration</group>
+        </exclude>
+    </groups>
+
+    <!--
+        Set your credentials here to run integration tests
+        <php>
+            <const name="EASYPAY_CONFIG" value="true" />
+            <const name="EASYPAY_CONFIG_USER" value="user" />
+            <const name="EASYPAY_CONFIG_ENTITY" value="entity" />
+            <const name="EASYPAY_CONFIG_CIN" value="cin" />
+        </php>
+    -->
 </phpunit>
