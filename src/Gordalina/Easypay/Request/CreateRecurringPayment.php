@@ -14,6 +14,7 @@ namespace Gordalina\Easypay\Request;
 use Gordalina\Easypay\Config;
 use Gordalina\Easypay\Payment\Payment;
 use Gordalina\Easypay\Payment\RecurringPayment;
+use Gordalina\Easypay\Response\CreateRecurringPayment as CreateRecurringPaymentResponse;
 
 class CreateRecurringPayment extends CreatePayment
 {
@@ -65,5 +66,13 @@ class CreateRecurringPayment extends CreatePayment
         }
 
         return $parameters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handleResponse($response)
+    {
+        return new CreateRecurringPaymentResponse($response);
     }
 }
