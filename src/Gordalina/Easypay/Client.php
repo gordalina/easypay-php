@@ -17,7 +17,6 @@ use Buzz\Client\FileGetContents;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
 
-use Gordalina\Easypay\Exception\ApiException;
 use Gordalina\Easypay\Request\RequestInterface;
 
 class Client
@@ -77,11 +76,9 @@ class Client
     }
 
     /**
-     * @param  string            $method
-     * @param  array             $parameters
-     * @return string            Content of server response
-     * @throws ApiException      If response is not valid
-     * @throws \RuntimeException If request fails
+     * @param  string                  $method
+     * @param  array                   $parameters
+     * @return ResponseInterface|false Content of server response
      */
     public function request(RequestInterface $method)
     {
@@ -96,18 +93,14 @@ class Client
         $this->client->send($request, $response);
 
         if (!$response->isSuccessful()) {
-            throw new \RuntimeException(sprintf("Response status code is invalid: %d", $response->getStatusCode()));
+            return false;
         }
 
         $data = (array) simplexml_load_string($response->getContent());
         $content = static::normalizeArray($data);
         $response = $method->handleResponse($content);
 
-        if ($response->isValid()) {
-            return $response;
-        }
-
-        throw new ApiException($response->getMessage(), $response->getStatus());
+        return $response;
     }
 
     /**

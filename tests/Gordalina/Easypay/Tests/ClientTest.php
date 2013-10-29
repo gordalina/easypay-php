@@ -131,9 +131,6 @@ EOF;
         $this->assertTrue($response->isValid());
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testUnsuccessfulRequest()
     {
         $stub = new ClientStub(function ($request, $response) {
@@ -145,11 +142,10 @@ EOF;
 
         $request = new RequestStub();
         $response = $client->request($request);
+
+        $this->assertFalse($response);
     }
 
-    /**
-     * @expectedException Gordalina\Easypay\Exception\ApiException
-     */
     public function testErrorRequest()
     {
         $stub = new ClientStub(function ($request, $response) {
@@ -161,6 +157,9 @@ EOF;
 
         $request = new RequestStub();
         $response = $client->request($request);
+
+        $this->assertInstanceOf('Gordalina\Easypay\Response\ResponseInterface', $response);
+        $this->assertFalse($response->isValid());
     }
 
     protected function getBuzzClient(Client $client)
