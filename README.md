@@ -29,23 +29,23 @@ This library uses [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 In order to run the unit tests, you'll first need to install the development
 dependencies of the project using Composer:
 
-```
+```sh
 $ php composer.phar install --dev
 ```
 
 You can then run the tests using phpunit
 
-```
+```sh
 $ bin/phpunit
 ```
 
 If you want to run integration tests you have to copy `phpunit.xml.dist` to
 `phpunit.xml` then insert your credentials and set `EASYPAY_RUN_INTEGRATION_TESTS`
-to true.
+to `true`.
 
 Then run phpunit
 
-```
+```sh
 $ bin/phpunit --exclude-group none
 ```
 
