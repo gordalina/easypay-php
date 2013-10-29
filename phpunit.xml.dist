@@ -24,13 +24,11 @@
         </exclude>
     </groups>
 
-    <!--
-        Set your credentials here to run integration tests
-        <php>
-            <const name="EASYPAY_CONFIG" value="true" />
-            <const name="EASYPAY_CONFIG_USER" value="user" />
-            <const name="EASYPAY_CONFIG_ENTITY" value="entity" />
-            <const name="EASYPAY_CONFIG_CIN" value="cin" />
-        </php>
-    -->
+    <!-- Set your credentials below and set EASYPAY_RUN_INTEGRATION_TESTS to true -->
+    <php>
+        <const name="EASYPAY_RUN_INTEGRATION_TESTS" value="false" />
+        <const name="EASYPAY_CONFIG_USER" value="USER010101" />
+        <const name="EASYPAY_CONFIG_ENTITY" value="10611 or 21048" />
+        <const name="EASYPAY_CONFIG_CIN" value="9999" />
+    </php>
 </phpunit>

@@ -16,6 +16,13 @@ use Gordalina\Easypay\Config;
 
 class IntegrationTestCase extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        if (EASYPAY_RUN_INTEGRATION_TESTS === false) {
+            $this->markTestSkipped('Integration tests are not enabled');
+        }
+    }
+
     protected function getClient()
     {
         $client = new Client($this->getConfig());
@@ -26,9 +33,6 @@ class IntegrationTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getConfig()
     {
-        if (!defined('EASYPAY_CONFIG')) {
-            $this->markTestSkipped('No credentials given for integration tests');
-        }
 
         return new Config(
             EASYPAY_CONFIG_USER,
