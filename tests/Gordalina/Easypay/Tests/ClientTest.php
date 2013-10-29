@@ -53,41 +53,42 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($client->isSandbox());
     }
 
-    public function testDecodeResponse()
+    public function testNormalizeArray()
     {
         $client = new Client($this->getConfig());
 
         $rfl = new \ReflectionClass($client);
-        $method = $rfl->getMethod('decodeResponse');
+        $method = $rfl->getMethod('normalizeArray');
         $method->setAccessible(true);
 
         $xml = <<<EOF
 <root>
     <key>value</key>
+    <empty></empty>
+    <recursive>
+        <key>value</key>
+        <empty></empty>
+    </recursive>
 </root>
 EOF;
 
-        $array = $method->invoke($client, $xml);
+        $array = (array) simplexml_load_string($xml);
+        $array = $method->invoke($client, $array);
         $this->assertTrue(is_array($array));
-        $this->assertCount(1, $array);
+        $this->assertCount(3, $array);
         $this->assertArrayHasKey('key', $array);
+        $this->assertArrayHasKey('empty', $array);
+        $this->assertArrayHasKey('recursive', $array);
         $this->assertSame('value', $array['key']);
-    }
+        $this->assertNull($array['empty']);
+        $this->assertTrue(is_array($array['recursive']));
 
-    /**
-     * @expectedException PHPUnit_Framework_Error
-     */
-    public function testInvalidDecodeResponse()
-    {
-        $client = new Client($this->getConfig());
-
-        $rfl = new \ReflectionClass($client);
-        $method = $rfl->getMethod('decodeResponse');
-        $method->setAccessible(true);
-
-        $xml = '{ "key": "value" }';
-
-        $array = $method->invoke($client, $xml);
+        $recursive = $array['recursive'];
+        $this->assertCount(2, $recursive);
+        $this->assertArrayHasKey('key', $recursive);
+        $this->assertArrayHasKey('empty', $recursive);
+        $this->assertSame('value', $recursive['key']);
+        $this->assertNull($recursive['empty']);
     }
 
     public function testGetEndpoint()

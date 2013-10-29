@@ -99,7 +99,8 @@ class Client
             throw new \RuntimeException(sprintf("Response status code is invalid: %d", $response->getStatusCode()));
         }
 
-        $content = static::decodeResponse($response->getContent());
+        $data = (array) simplexml_load_string($response->getContent());
+        $content = static::normalizeArray($data);
         $response = $method->handleResponse($content);
 
         if ($response->isValid()) {
@@ -119,21 +120,19 @@ class Client
      * @param  $content string
      * @return array
      */
-    protected static function decodeResponse($content)
+    protected static function normalizeArray(array $content)
     {
-        $data = (array) simplexml_load_string($content);
-
-        foreach ($data as $key => $value) {
+        foreach ($content as $key => $value) {
             if ($value instanceof \SimpleXMLElement) {
                 if ($value->count()) {
-                    $data[$key] = static::decodeResponse($value);
+                    $content[$key] = static::normalizeArray((array) $value);
                 } else {
-                    $data[$key] = null;
+                    $content[$key] = null;
                 }
             }
         }
 
-        return $data;
+        return $content;
     }
 
     /**
