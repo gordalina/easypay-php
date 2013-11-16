@@ -177,6 +177,72 @@ class CreateRecurringPaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('john@doe.com', $params['o_email']);
     }
 
+    public function testHandleResponseCreditCard()
+    {
+        $request = $this->getRequest();
+        $response = $request->handleResponse(array(
+            'ep_status' => 'ok',
+            'ep_message' => 'message',
+            'ep_cin' => 'cin',
+            'ep_user' => 'user',
+            'ep_entity' => 'entity',
+            'ep_reference' => 'reference',
+            'ep_value' => '10.0',
+            't_key' => 'key',
+            'ep_link' => 'link',
+            'ep_k1' => 'k1',
+            'ep_periodicity' => 'periodicity',
+            'ep_link_rp_cc' => 'cc',
+        ));
+
+        $this->assertInstanceOf('Gordalina\Easypay\Response\CreateRecurringPayment', $response);
+        $this->assertSame('cin', $response->getCin());
+        $this->assertSame('user', $response->getUser());
+        $this->assertSame('entity', $response->getEntity());
+        $this->assertSame('reference', $response->getReference());
+        $this->assertSame(10.0, $response->getValue());
+        $this->assertSame('key', $response->getKey());
+        $this->assertSame('link', $response->getLink());
+        $this->assertSame('k1', $response->getK1());
+        $this->assertSame('periodicity', $response->getFrequency());
+        $this->assertSame('cc', $response->getCreditCardLink());
+        $this->assertSame('ok', $response->getStatus());
+        $this->assertSame('message', $response->getMessage());
+    }
+
+    public function testHandleResponseDirectDebit()
+    {
+        $request = $this->getRequest();
+        $response = $request->handleResponse(array(
+            'ep_status' => 'ok',
+            'ep_message' => 'message',
+            'ep_cin' => 'cin',
+            'ep_user' => 'user',
+            'ep_entity' => 'entity',
+            'ep_reference' => 'reference',
+            'ep_value' => '10.0',
+            't_key' => 'key',
+            'ep_link' => 'link',
+            'ep_k1' => 'k1',
+            'ep_periodicity' => 'periodicity',
+            'ep_link_rp_dd' => 'dd',
+        ));
+
+        $this->assertInstanceOf('Gordalina\Easypay\Response\CreateRecurringPayment', $response);
+        $this->assertSame('cin', $response->getCin());
+        $this->assertSame('user', $response->getUser());
+        $this->assertSame('entity', $response->getEntity());
+        $this->assertSame('reference', $response->getReference());
+        $this->assertSame(10.0, $response->getValue());
+        $this->assertSame('key', $response->getKey());
+        $this->assertSame('link', $response->getLink());
+        $this->assertSame('k1', $response->getK1());
+        $this->assertSame('periodicity', $response->getFrequency());
+        $this->assertSame('dd', $response->getDirectDebitLink());
+        $this->assertSame('ok', $response->getStatus());
+        $this->assertSame('message', $response->getMessage());
+    }
+
     public function getRequest()
     {
         $payment = new RecurringPayment();
