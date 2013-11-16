@@ -1,5 +1,6 @@
 # Easypay-PHP
 
+[![Build Status](https://travis-ci.org/gordalina/easypay-php.png?branch=master)](https://travis-ci.org/gordalina/easypay-php)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/gordalina/easypay-php/badges/quality-score.png?s=b160bd0c381c891e46f8afc603dc00ff9b60c5e7)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
 [![Code Coverage](https://scrutinizer-ci.com/g/gordalina/easypay-php/badges/coverage.png?s=8661545b6e1ea5f183803dad32aa50889fbe1ab4)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
 
