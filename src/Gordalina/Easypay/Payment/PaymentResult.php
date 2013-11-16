@@ -74,13 +74,15 @@ class PaymentResult
      */
     public static function fromGlobals()
     {
+        $attributes = $_GET;
+
         return new static(
-            $_GET['e'],
-            $_GET['r'],
-            $_GET['v'],
-            $_GET['k'],
-            $_GET['s'],
-            $_GET['t_key']
+            $attributes['e'],
+            $attributes['r'],
+            $attributes['v'],
+            $attributes['k'],
+            $attributes['s'],
+            $attributes['t_key']
         );
     }
 

@@ -84,11 +84,13 @@ class PaymentNotification
      */
     public static function fromGlobals()
     {
+        $attributes = $_GET;
+
         return new static(
-            $_GET['ep_cin'],
-            $_GET['ep_user'],
-            $_GET['ep_doc'],
-            $_GET['ep_type']
+            $attributes['ep_cin'],
+            $attributes['ep_user'],
+            $attributes['ep_doc'],
+            $attributes['ep_type']
         );
     }
 
