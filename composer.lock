@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "322b7375feab7028842e4c218ae804b1",
+    "hash": "b40843e7ef47ca8055e4223194524b97",
     "packages": [
         {
             "name": "kriswallsmith/buzz",
@@ -475,7 +475,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kriswallsmith/buzz": 0,
         "phpunit/phpunit": 0
     },
     "platform": {
