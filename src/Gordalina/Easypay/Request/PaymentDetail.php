@@ -13,7 +13,6 @@ namespace Gordalina\Easypay\Request;
 
 use Gordalina\Easypay\Config;
 use Gordalina\Easypay\Payment\PaymentNotification;
-use Gordalina\Easypay\Payment\CustomerInfo;
 use Gordalina\Easypay\Response\PaymentDetail as PaymentDetailResponse;
 
 class PaymentDetail implements RequestInterface
