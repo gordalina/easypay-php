@@ -40,16 +40,12 @@ class CreateRecurringPayment extends CreatePayment implements ResponseInterface
     {
         parent::__construct($content);
 
-        if (isset($content['ep_link_rp_cc'])) {
-            $this->creditCardLink = $content['ep_link_rp_cc'];
-        }
-
-        if (isset($content['ep_link_rp_dd'])) {
-            $this->directDebitLink = $content['ep_link_rp_dd'];
-        }
-
-        $this->k1 = $content['ep_k1'];
-        $this->frequency = $content['ep_periodicity'];
+        $this->parse($content, array(
+            'ep_link_rp_cc' => 'creditCardLink',
+            'ep_link_rp_dd' => 'directDebitLink',
+            'ep_k1' => 'k1',
+            'ep_periodicity' => 'frequency',
+        ));
     }
 
     /**

@@ -11,7 +11,7 @@
 
 namespace Gordalina\Easypay\Response;
 
-class PaymentDetail implements ResponseInterface
+class PaymentDetail extends AbstractResponse implements ResponseInterface
 {
     /**
      * @var string
@@ -113,26 +113,46 @@ class PaymentDetail implements ResponseInterface
      */
     public function __construct(array $content)
     {
-        $this->cin = $content['ep_cin'];
-        $this->user = $content['ep_user'];
-        $this->entity = $content['ep_entity'];
-        $this->reference = $content['ep_reference'];
-        $this->value = (float) $content['ep_value'];
-        $this->key = (int) $content['t_key'];
-        $this->status = $content['ep_status'];
-        $this->message = $content['ep_message'];
+        $this->parse($content, array(
+            'ep_cin' => 'cin',
+            'ep_user' => 'user',
+            'ep_entity' => 'entity',
+            'ep_reference' => 'reference',
+            'ep_value' => array('value', function ($data) {
+                return (float) $data;
+            }),
+            't_key' => array('key', function ($data) {
+                return (int) $data;
+            }),
+            'ep_status' => 'status',
+            'ep_message' => 'message',
 
-        $this->epKey = $content['ep_key'];
-        $this->doc = $content['ep_doc'];
-        $this->paymentType = $content['ep_payment_type'];
-        $this->valueFixed = (float) $content['ep_value_fixed'];
-        $this->valueVariable = (float) $content['ep_value_var'];
-        $this->valueTax = (float) $content['ep_value_tax'];
-        $this->valueTransfered = (float) $content['ep_value_transf'];
-        $this->dateTransfered = new \DateTime($content['ep_date_transf']);
-        $this->dateRead = new \DateTime($content['ep_date_read']);
-        $this->date = new \DateTime($content['ep_date']);
-        $this->statusRead = $content['ep_status_read'];
+            'ep_key' => 'epKey',
+            'ep_doc' => 'doc',
+            'ep_payment_type' => 'paymentType',
+            'ep_value_fixed' => array('valueFixed', function ($data) {
+                return (float) $data;
+            }),
+            'ep_value_var' => array('valueVariable', function ($data) {
+                return (float) $data;
+            }),
+            'ep_value_tax' => array('valueTax', function ($data) {
+                return (float) $data;
+            }),
+            'ep_value_transf' => array('valueTransfered', function ($data) {
+                return (float) $data;
+            }),
+            'ep_date_transf' => array('dateTransfered', function ($data) {
+                return new \DateTime($data);
+            }),
+            'ep_date_read' => array('dateRead', function ($data) {
+                return new \DateTime($data);
+            }),
+            'ep_date' => array('date', function ($data) {
+                return new \DateTime($data);
+            }),
+            'ep_status_read' => 'statusRead',
+        ));
     }
 
     /**

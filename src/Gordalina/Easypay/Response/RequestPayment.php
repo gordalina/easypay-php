@@ -11,7 +11,7 @@
 
 namespace Gordalina\Easypay\Response;
 
-class RequestPayment implements ResponseInterface
+class RequestPayment extends AbstractResponse implements ResponseInterface
 {
     /**
      * @var string
@@ -48,12 +48,16 @@ class RequestPayment implements ResponseInterface
      */
     public function __construct(array $content)
     {
-        $this->entity = $content['ep_entity'];
-        $this->reference = $content['ep_reference'];
-        $this->value = (float) $content['ep_value'];
-        $this->key = $content['ep_key'];
-        $this->status = $content['ep_status'];
-        $this->message = $content['ep_message'];
+        $this->parse($content, array(
+            'ep_entity' => 'entity',
+            'ep_reference' => 'reference',
+            'ep_value' => array('value', function ($data) {
+                return (float) $data;
+            }),
+            'ep_key' => 'key',
+            'ep_status' => 'status',
+            'ep_message' => 'message',
+        ));
     }
 
     /**

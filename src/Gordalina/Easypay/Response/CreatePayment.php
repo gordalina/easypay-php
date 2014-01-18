@@ -11,7 +11,7 @@
 
 namespace Gordalina\Easypay\Response;
 
-class CreatePayment implements ResponseInterface
+class CreatePayment extends AbstractResponse implements ResponseInterface
 {
     /**
      * @var string
@@ -68,22 +68,20 @@ class CreatePayment implements ResponseInterface
      */
     public function __construct(array $content)
     {
-        $this->cin = $content['ep_cin'];
-        $this->user = $content['ep_user'];
-        $this->entity = $content['ep_entity'];
-        $this->reference = $content['ep_reference'];
-        $this->value = (float) $content['ep_value'];
-        $this->link = $content['ep_link'];
-        $this->status = $content['ep_status'];
-        $this->message = $content['ep_message'];
-
-        if (isset($content['t_key'])) {
-            $this->key = $content['t_key'];
-        }
-
-        if (isset($content['ep_boleto'])) {
-            $this->boletoLink = $content['ep_boleto'];
-        }
+        $this->parse($content, array(
+            'ep_cin' => 'cin',
+            'ep_user' => 'user',
+            'ep_entity' => 'entity',
+            'ep_reference' => 'reference',
+            'ep_value' => array('value', function ($data) {
+                return (float) $data;
+            }),
+            'ep_link' => 'link',
+            'ep_status' => 'status',
+            'ep_message' => 'message',
+            't_key' => 'key',
+            'ep_boleto' => 'boletoLink',
+        ));
     }
 
     /**
