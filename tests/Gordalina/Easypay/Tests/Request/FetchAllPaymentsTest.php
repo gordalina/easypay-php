@@ -42,7 +42,7 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $request = new FetchAllPayments();
         $request->setFilter('date');
         $request->setStartDate('2013-01-01');
-        $request->setStartDate('2014-01-01');
+        $request->setEndDate('2014-01-01');
 
         $params = $request->handleRequest($this->getConfig());
 
@@ -59,7 +59,7 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
     {
         $request = new FetchAllPayments();
         $response = $request->handleResponse(array(
-            'ep_status' => 'ok',
+            'ep_status' => 'ok0',
             'ep_message' => 'message',
             'ep_cin' => 'cin',
             'ep_user' => 'user',
@@ -84,6 +84,7 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertInstanceOf('Gordalina\Easypay\Response\FetchAllPayments', $response);
+        $this->assertTrue($response->isValid());
         $this->assertSame('cin', $response->getCin());
         $this->assertSame('user', $response->getUser());
         $this->assertSame('entity', $response->getEntity());
@@ -104,7 +105,7 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('email', $response->getEmail());
         $this->assertSame('mobile', $response->getMobile());
         $this->assertSame('date', $response->getDate());
-        $this->assertSame('ok', $response->getStatus());
+        $this->assertSame('ok0', $response->getStatus());
         $this->assertSame('message', $response->getMessage());
     }
 
