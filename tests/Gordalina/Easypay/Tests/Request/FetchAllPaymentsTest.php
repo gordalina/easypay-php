@@ -47,12 +47,15 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $params = $request->handleRequest($this->getConfig());
 
         $this->assertTrue(is_array($params));
-        $this->assertCount(7, $params);
+        $this->assertCount(8, $params);
         $this->assertSame('cin', $params['ep_cin']);
         $this->assertSame('user', $params['ep_user']);
         $this->assertSame('entity', $params['ep_entity']);
         $this->assertSame('language', $params['ep_language']);
         $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('2013-01-01', $params['o_ini']);
+        $this->assertSame('2014-01-01', $params['o_last']);
+        $this->assertSame('date', $params['ep_list_type']);
     }
 
     public function testHandleResponseNormal()
