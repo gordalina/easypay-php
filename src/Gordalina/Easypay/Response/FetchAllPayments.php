@@ -43,15 +43,18 @@ class FetchAllPayments extends AbstractResponse implements ResponseInterface
             'ep_status' => 'status',
             'ep_message' => 'message',
             'ep_num_records' => 'recordCount',
-            'ref_detail' => array('records', array($this, 'normalizePayments'))
+            'ref_detail' => array('records', function (array $payments) {
+                return FetchAllPayments::normalizePayments($payments);
+            })
         ));
     }
 
     /**
+     * @static
      * @param  array  $payments
      * @return array|PaymentComplete[]
      */
-    public function normalizePayments(array $payments)
+    public static function normalizePayments(array $payments)
     {
         if (!isset($payments['ref']) || empty($payments['ref'])) {
             return array();
