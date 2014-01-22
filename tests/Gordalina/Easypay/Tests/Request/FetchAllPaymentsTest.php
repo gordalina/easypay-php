@@ -64,52 +64,90 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $response = $request->handleResponse(array(
             'ep_status' => 'ok0',
             'ep_message' => 'message',
-            'ep_cin' => 'cin',
-            'ep_user' => 'user',
-            'ep_entity' => 'entity',
-            'ep_reference' => 'reference',
-            'ep_value' => '10.0',
-            't_key' => '10.0',
-            'ep_key' => 'key',
-            'ep_doc' => 'doc',
-            'ep_payment_type' => 'paymentType',
-            'ep_value_fixed' => 'valueFixed',
-            'ep_value_var' => 'valueVariable',
-            'ep_value_tax' => 'valueTax',
-            'ep_value_transf' => 'valueTransfered',
-            'ep_date_transf' => 'dateTransfered',
-            'ep_date_read' => 'dateRead',
-            'ep_status_read' => 'statusRead',
-            'o_obs' => 'observations',
-            'o_email' => 'email',
-            'o_mobile' => 'mobile',
-            'ep_date' => 'date',
+            'ep_num_records' => 1,
+            'ref_detail' => array(
+                'ref' => array(
+                    array(
+                        'ep_cin' => 'cin',
+                        'ep_user' => 'user',
+                        'ep_entity' => 'entity',
+                        'ep_reference' => 'reference',
+                        'ep_value' => '10.0',
+                        't_key' => '10.0',
+                        'ep_key' => '10.0',
+                        'ep_doc' => 'doc',
+                        'ep_payment_type' => 'paymentType',
+                        'ep_value_fixed' => 'valueFixed',
+                        'ep_value_var' => 'valueVariable',
+                        'ep_value_tax' => 'valueTax',
+                        'ep_value_transf' => 'valueTransfered',
+                        'ep_date_transf' => 'dateTransfered',
+                        'ep_date_read' => 'dateRead',
+                        'ep_status_read' => 'statusRead',
+                        'o_obs' => 'observations',
+                        'o_email' => 'email',
+                        'o_mobile' => 'mobile',
+                        'ep_date' => 'date',
+                    ),
+                ),
+            ),
         ));
 
         $this->assertInstanceOf('Gordalina\Easypay\Response\FetchAllPayments', $response);
         $this->assertTrue($response->isValid());
-        $this->assertSame('cin', $response->getCin());
-        $this->assertSame('user', $response->getUser());
-        $this->assertSame('entity', $response->getEntity());
-        $this->assertSame('reference', $response->getReference());
-        $this->assertSame(10.0, $response->getValue());
-        $this->assertSame(10, $response->getKey());
-        $this->assertSame('key', $response->getEpKey());
-        $this->assertSame('doc', $response->getDoc());
-        $this->assertSame('paymentType', $response->getPaymentType());
-        $this->assertSame('valueFixed', $response->getValueFixed());
-        $this->assertSame('valueVariable', $response->getValueVariable());
-        $this->assertSame('valueTax', $response->getValueTax());
-        $this->assertSame('valueTransfered', $response->getValueTransfered());
-        $this->assertSame('dateTransfered', $response->getDateTransfered());
-        $this->assertSame('dateRead', $response->getDateRead());
-        $this->assertSame('statusRead', $response->getStatusRead());
-        $this->assertSame('observations', $response->getObservations());
-        $this->assertSame('email', $response->getEmail());
-        $this->assertSame('mobile', $response->getMobile());
-        $this->assertSame('date', $response->getDate());
         $this->assertSame('ok0', $response->getStatus());
         $this->assertSame('message', $response->getMessage());
+        $this->assertSame(1, $response->getRecordCount());
+
+        $payments = $response->getRecords();
+        $this->assertTrue(is_array($payments));
+
+        foreach ($payments as $payment) {
+            $this->assertInstanceOf('Gordalina\Easypay\Payment\PaymentComplete', $payment);
+            $this->assertSame('cin', $payment->getCin());
+            $this->assertSame('user', $payment->getUser());
+            $this->assertSame('entity', $payment->getEntity());
+            $this->assertSame('reference', $payment->getReference());
+            $this->assertSame(10.0, $payment->getValue());
+            $this->assertSame('10.0', $payment->getKey());
+            $this->assertSame(10, $payment->getEpKey());
+            $this->assertSame('doc', $payment->getDoc());
+            $this->assertSame('paymentType', $payment->getPaymentType());
+            $this->assertSame('valueFixed', $payment->getValueFixed());
+            $this->assertSame('valueVariable', $payment->getValueVariable());
+            $this->assertSame('valueTax', $payment->getValueTax());
+            $this->assertSame('valueTransfered', $payment->getValueTransfered());
+            $this->assertSame('dateTransfered', $payment->getDateTransfered());
+            $this->assertSame('dateRead', $payment->getDateRead());
+            $this->assertSame('statusRead', $payment->getStatusRead());
+            $this->assertSame('observations', $payment->getObservations());
+            $this->assertSame('email', $payment->getEmail());
+            $this->assertSame('mobile', $payment->getMobile());
+            $this->assertSame('date', $payment->getDate());
+        }
+    }
+
+
+    public function testHandleResponseNoPayments()
+    {
+        $request = new FetchAllPayments();
+        $response = $request->handleResponse(array(
+            'ep_status' => 'ok0',
+            'ep_message' => 'message',
+            'ep_num_records' => 0,
+            'ref_detail' => array(
+                'ref' => array()
+            ),
+        ));
+
+        $this->assertInstanceOf('Gordalina\Easypay\Response\FetchAllPayments', $response);
+        $this->assertTrue($response->isValid());
+        $this->assertSame('ok0', $response->getStatus());
+        $this->assertSame('message', $response->getMessage());
+        $this->assertSame(0, $response->getRecordCount());
+
+        $this->assertTrue(is_array($response->getRecords()));
+        $this->assertCount(0, $response->getRecords());
     }
 
     public function getConfig()
