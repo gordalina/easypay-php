@@ -122,6 +122,8 @@ class Client
                 } else {
                     $content[$key] = null;
                 }
+            } elseif (is_array($value)) {
+                $content[$key] = static::normalizeArray($value);
             }
         }
 

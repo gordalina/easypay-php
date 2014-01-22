@@ -62,6 +62,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         $xml = <<<EOF
+<?xml version="1.0"?>
 <root>
     <key>value</key>
     <empty></empty>
@@ -69,19 +70,31 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         <key>value</key>
         <empty></empty>
     </recursive>
+    <list>
+        <item>
+            <key>value</key>
+        </item>
+        <item>
+            <key>value</key>
+        </item>
+    </list>
 </root>
 EOF;
 
         $array = (array) simplexml_load_string($xml);
         $array = $method->invoke($client, $array);
         $this->assertTrue(is_array($array));
-        $this->assertCount(3, $array);
+        $this->assertCount(4, $array);
         $this->assertArrayHasKey('key', $array);
         $this->assertArrayHasKey('empty', $array);
         $this->assertArrayHasKey('recursive', $array);
+        $this->assertArrayHasKey('list', $array);
         $this->assertSame('value', $array['key']);
         $this->assertNull($array['empty']);
         $this->assertTrue(is_array($array['recursive']));
+        $this->assertTrue(is_array($array['list']));
+        $this->assertFalse($array['recursive'] instanceof \SimpleXMLElement);
+        $this->assertFalse($array['list'] instanceof \SimpleXMLElement);
 
         $recursive = $array['recursive'];
         $this->assertCount(2, $recursive);
@@ -89,6 +102,21 @@ EOF;
         $this->assertArrayHasKey('empty', $recursive);
         $this->assertSame('value', $recursive['key']);
         $this->assertNull($recursive['empty']);
+
+        $list = $array['list'];
+        $this->assertCount(1, $list);
+        $this->assertArrayHasKey('item', $list);
+        $this->assertTrue(is_array($list['item']));
+        $this->assertFalse($list['item'] instanceof \SimpleXMLElement);
+        $this->assertCount(2, $list['item']);
+        $this->assertArrayHasKey(0, $list['item']);
+        $this->assertArrayHasKey(1, $list['item']);
+        $this->assertTrue(is_array($list['item'][0]));
+        $this->assertTrue(is_array($list['item'][1]));
+        $this->assertArrayHasKey('key', $list['item'][0]);
+        $this->assertArrayHasKey('key', $list['item'][1]);
+        $this->assertSame('value', $list['item'][0]['key']);
+        $this->assertSame('value', $list['item'][1]['key']);
     }
 
     public function testGetEndpoint()
