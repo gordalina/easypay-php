@@ -52,7 +52,9 @@ class Client
         } elseif (extension_loaded('curl')) {
             $this->client = new Curl();
         } else {
+            // @codeCoverageIgnoreStart
             $this->client = new FileGetContents();
+            // @codeCoverageIgnoreEnd
         }
     }
 

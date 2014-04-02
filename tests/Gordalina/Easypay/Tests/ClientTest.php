@@ -157,6 +157,7 @@ EOF;
         $this->assertSame('<root><status>ok</status></root>', $protocolResponse->getContent());
 
         $this->assertTrue($response->isValid());
+        $this->assertSame('ok', $response->getStatus());
     }
 
     public function testUnsuccessfulRequest()
@@ -188,6 +189,7 @@ EOF;
 
         $this->assertInstanceOf('Gordalina\Easypay\Response\ResponseInterface', $response);
         $this->assertFalse($response->isValid());
+        $this->assertSame('error', $response->getMessage());
     }
 
     protected function getBuzzClient(Client $client)
