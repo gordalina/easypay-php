@@ -39,13 +39,20 @@ class Config
     protected $country;
 
     /**
+     * Optional authentication code.
+     * @var string
+     */
+    protected $code;
+
+    /**
      * @param string $user
      * @param string $entity
      * @param string $cin
      * @param string $country
      * @param string $language
+     * @param string $code
      */
-    public function __construct($user, $entity, $cin, $country = 'PT', $language = 'PT')
+    public function __construct($user, $entity, $cin, $country = 'PT', $language = 'PT', $code = NULL)
     {
         $this->user = $user;
         $this->entity = $entity;
@@ -53,6 +60,8 @@ class Config
 
         $this->country = $country;
         $this->language = $language;
+
+        $this->code = $code;
     }
 
     /**
@@ -93,5 +102,13 @@ class Config
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }
