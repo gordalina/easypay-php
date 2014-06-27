@@ -90,6 +90,9 @@ class FetchAllPayments implements RequestInterface
             'ep_entity' => $config->getEntity(),
             'ep_language' => $config->getLanguage(),
             'ep_country' => $config->getCountry(),
+
+            // Optional authentication code
+            's_code' => $config->getCode(),
         );
 
         if ($this->filter) {
