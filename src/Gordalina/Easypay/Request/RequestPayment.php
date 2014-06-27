@@ -66,6 +66,9 @@ class RequestPayment implements RequestInterface
             }
         }
 
+        // Optional authentication code
+        $parameters['s_code'] = $config->getCode();
+
         return $parameters;
     }
 
