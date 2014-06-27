@@ -58,10 +58,12 @@ class PaymentDetail implements RequestInterface
             'ep_user' => $this->paymentNotification->getUser(),
             'ep_doc' => $this->paymentNotification->getDoc(),
             'ep_type' => $this->paymentNotification->getType(),
-
-            // Optional authentication code
-            's_code' => $config->getCode(),
         );
+
+        // Optional authentication code
+        if (!empty($config->getCode())) {
+            $parameters['s_code'] = $config->getCode();
+        }
 
         return $parameters;
     }

@@ -65,9 +65,6 @@ class CreatePayment implements RequestInterface
             'ep_language' => $config->getLanguage(),
             'ep_country' => $config->getCountry(),
 
-            // Optional authentication code
-            's_code' => $config->getCode(),
-
             // custom values
             'ep_ref_type' => 'auto',
             't_value' => strval($this->payment->getValue()),
@@ -76,6 +73,11 @@ class CreatePayment implements RequestInterface
 
         if ($this->payment->getCustomerInfo() instanceof CustomerInfo) {
             $parameters = array_merge($parameters, $this->payment->getCustomerInfo()->toArray());
+        }
+
+        // Optional authentication code
+        if (!empty($config->getCode())) {
+            $parameters['s_code'] = $config->getCode();
         }
 
         switch ($this->payment->getType()) {
