@@ -60,6 +60,11 @@ class PaymentDetail implements RequestInterface
             'ep_type' => $this->paymentNotification->getType(),
         );
 
+        // Optional authentication code
+        if (!empty($config->getCode())) {
+            $parameters['s_code'] = $config->getCode();
+        }
+
         return $parameters;
     }
 

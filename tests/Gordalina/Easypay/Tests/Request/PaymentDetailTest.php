@@ -43,6 +43,21 @@ class PaymentDetailTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('user', $params['ep_user']);
         $this->assertSame('doc', $params['ep_doc']);
         $this->assertSame('type', $params['ep_type']);
+        $this->assertArrayNotHasKey('s_code', $params);
+    }
+
+    public function testHandleRequestCode()
+    {
+        $request = $this->getRequest();
+        $params = $request->handleRequest($this->getConfig('code'));
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(5, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('doc', $params['ep_doc']);
+        $this->assertSame('type', $params['ep_type']);
+        $this->assertSame('code', $params['s_code']);
     }
 
     public function testHandleResponse()
@@ -99,8 +114,8 @@ class PaymentDetailTest extends \PHPUnit_Framework_TestCase
         return new PaymentDetail($paymentNotification);
     }
 
-    public function getConfig()
+    public function getConfig($code = NULL)
     {
-        return new Config('user', 'entity', 'cin', 'country', 'language');
+        return new Config('user', 'entity', 'cin', 'country', 'language', $code);
     }
 }

@@ -67,6 +67,21 @@ class RequestPaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('reference', $params['r']);
         $this->assertSame(1.23, $params['v']);
         $this->assertSame('authorizationKey', $params['k']);
+        $this->assertArrayNotHasKey('s_code', $params);
+    }
+
+    public function testHandleRequestCode()
+    {
+        $request = $this->getRequest();
+        $params = $request->handleRequest($this->getConfig('code'));
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(5, $params);
+        $this->assertSame('entity', $params['e']);
+        $this->assertSame('reference', $params['r']);
+        $this->assertSame(1.23, $params['v']);
+        $this->assertSame('authorizationKey', $params['k']);
+        $this->assertSame('code', $params['s_code']);
     }
 
     public function testHandleResponse()
@@ -104,8 +119,8 @@ class RequestPaymentTest extends \PHPUnit_Framework_TestCase
         return new RequestPayment($paymentResult);
     }
 
-    public function getConfig()
+    public function getConfig($code = NULL)
     {
-        return new Config('user', 'entity', 'cin', 'country', 'language');
+        return new Config('user', 'entity', 'cin', 'country', 'language', $code);
     }
 }

@@ -35,6 +35,22 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('entity', $params['ep_entity']);
         $this->assertSame('language', $params['ep_language']);
         $this->assertSame('country', $params['ep_country']);
+        $this->assertArrayNotHasKey('s_code', $params);
+    }
+
+    public function testCode()
+    {
+        $request = new FetchAllPayments();
+        $params = $request->handleRequest($this->getConfig('code'));
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(6, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('entity', $params['ep_entity']);
+        $this->assertSame('language', $params['ep_language']);
+        $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('code', $params['s_code']);
     }
 
     public function testFilter()
@@ -150,8 +166,8 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $response->getRecords());
     }
 
-    public function getConfig()
+    public function getConfig($code = NULL)
     {
-        return new Config('user', 'entity', 'cin', 'country', 'language');
+        return new Config('user', 'entity', 'cin', 'country', 'language', $code);
     }
 }
