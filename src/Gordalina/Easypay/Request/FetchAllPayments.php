@@ -93,7 +93,7 @@ class FetchAllPayments implements RequestInterface
         );
 
         // Optional authentication code
-        if (!empty($config->getCode())) {
+        if ($config->getCode()) {
             $parameters['s_code'] = $config->getCode();
         }
 
