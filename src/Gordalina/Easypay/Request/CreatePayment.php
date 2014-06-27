@@ -65,6 +65,9 @@ class CreatePayment implements RequestInterface
             'ep_language' => $config->getLanguage(),
             'ep_country' => $config->getCountry(),
 
+            // Optional authentication code
+            's_code' => $config->getCode(),
+
             // custom values
             'ep_ref_type' => 'auto',
             't_value' => strval($this->payment->getValue()),
