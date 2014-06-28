@@ -92,6 +92,11 @@ class FetchAllPayments implements RequestInterface
             'ep_country' => $config->getCountry(),
         );
 
+        // Optional authentication code
+        if ($config->getCode()) {
+            $parameters['s_code'] = $config->getCode();
+        }
+
         if ($this->filter) {
             $parameters['ep_list_type'] = $this->filter;
 

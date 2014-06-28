@@ -17,13 +17,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $config = new Config('user', 'entity', 'cin', 'ES', 'ES');
+        $config = new Config('user', 'entity', 'cin', 'ES', 'ES', 'code');
 
         $this->assertSame('user', $config->getUser());
         $this->assertSame('entity', $config->getEntity());
         $this->assertSame('cin', $config->getCin());
         $this->assertSame('ES', $config->getCountry());
         $this->assertSame('ES', $config->getLanguage());
+        $this->assertSame('code', $config->getCode());
     }
 
     public function testDefaults()
@@ -35,5 +36,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('cin', $config->getCin());
         $this->assertSame('PT', $config->getCountry());
         $this->assertSame('PT', $config->getLanguage());
+        $this->assertNull($config->getCode());
     }
 }

@@ -75,6 +75,11 @@ class CreatePayment implements RequestInterface
             $parameters = array_merge($parameters, $this->payment->getCustomerInfo()->toArray());
         }
 
+        // Optional authentication code
+        if ($config->getCode()) {
+            $parameters['s_code'] = $config->getCode();
+        }
+
         switch ($this->payment->getType()) {
             case Payment::TYPE_BOLETO:
             case Payment::TYPE_MOTO:

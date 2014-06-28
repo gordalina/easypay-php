@@ -54,6 +54,27 @@ class CreateRecurringPaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('yes', $params['ep_rec']);
         $this->assertSame('1D', $params['ep_rec_freq']);
         $this->assertSame(null, $params['t_key']);
+        $this->assertArrayNotHasKey('s_code', $params);
+    }
+
+    public function testCode()
+    {
+        $request = $this->getRequest();
+        $params = $request->handleRequest($this->getConfig('code'));
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(11, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('entity', $params['ep_entity']);
+        $this->assertSame('language', $params['ep_language']);
+        $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('auto', $params['ep_ref_type']);
+        $this->assertSame('10', $params['t_value']);
+        $this->assertSame('yes', $params['ep_rec']);
+        $this->assertSame('1D', $params['ep_rec_freq']);
+        $this->assertSame(null, $params['t_key']);
+        $this->assertSame('code', $params['s_code']);
     }
 
     public function testNormalWithReturnUrl()
@@ -252,8 +273,8 @@ class CreateRecurringPaymentTest extends \PHPUnit_Framework_TestCase
         return new CreateRecurringPayment($payment);
     }
 
-    public function getConfig()
+    public function getConfig($code = NULL)
     {
-        return new Config('user', 'entity', 'cin', 'country', 'language');
+        return new Config('user', 'entity', 'cin', 'country', 'language', $code);
     }
 }
