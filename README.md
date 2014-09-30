@@ -16,7 +16,7 @@ The recommended way to install is through [Composer](http://composer.org).
 $ curl -sS https://getcomposer.org/installer | php
 
 # Add easypay-php as a dependency
-$ php composer.phar require gordalina/easypay-php:~0.0
+$ php composer.phar require gordalina/easypay-php:~1.0
 ```
 
 After installing, you need to require Composer's autoloader:
