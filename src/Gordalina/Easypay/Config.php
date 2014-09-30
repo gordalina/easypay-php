@@ -45,6 +45,12 @@ class Config
     protected $code;
 
     /**
+     * Optional maxdate for MB payments.
+     * @var string
+     */
+    protected $maxdate;
+
+    /**
      * @param string $user
      * @param string $entity
      * @param string $cin
@@ -52,7 +58,7 @@ class Config
      * @param string $language
      * @param string $code
      */
-    public function __construct($user, $entity, $cin, $country = 'PT', $language = 'PT', $code = NULL)
+    public function __construct($user, $entity, $cin, $country = 'PT', $language = 'PT', $code = NULL, $maxdate = NULL)
     {
         $this->user = $user;
         $this->entity = $entity;
@@ -62,6 +68,8 @@ class Config
         $this->language = $language;
 
         $this->code = $code;
+
+	$this->maxdate = $maxdate;
     }
 
     /**
@@ -110,5 +118,13 @@ class Config
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaxDate()
+    {
+        return $this->maxdate;
     }
 }

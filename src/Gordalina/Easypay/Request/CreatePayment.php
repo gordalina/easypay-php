@@ -70,7 +70,7 @@ class CreatePayment implements RequestInterface
             't_value' => strval($this->payment->getValue()),
             't_key' => $this->payment->getKey(),
         );
-
+	
         if ($this->payment->getCustomerInfo() instanceof CustomerInfo) {
             $parameters = array_merge($parameters, $this->payment->getCustomerInfo()->toArray());
         }
@@ -79,6 +79,12 @@ class CreatePayment implements RequestInterface
         if ($config->getCode()) {
             $parameters['s_code'] = $config->getCode();
         }
+
+	// Optional MB max date
+	if ($config->getMaxDate()){
+	    $parameters['o_max_date'] = $config->getMaxDate();
+            $parameters['ep_partner'] = $config->getUser();
+	}	
 
         switch ($this->payment->getType()) {
             case Payment::TYPE_BOLETO:
