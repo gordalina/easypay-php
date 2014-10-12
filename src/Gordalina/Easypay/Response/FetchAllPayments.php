@@ -45,11 +45,7 @@ class FetchAllPayments extends AbstractResponse implements ResponseInterface
             'ep_message' => 'message',
             'ep_num_records' => 'recordCount',
             'ref_detail' => array('records', function (array $payments) use ($content) {
-                if($content['ep_num_records'] == 1) {
-                    return array(PaymentComplete::fromArray($payments));
-                }
-                
-                return FetchAllPayments::normalizePayments($payments);
+                return FetchAllPayments::normalizePayments($content['ep_num_records'] == 1 ? array($payments) : $payments);
             })
         ));
     }
