@@ -10,6 +10,7 @@
  */
 
 namespace Gordalina\Easypay\Response;
+use Gordalina\Easypay\Payment\PaymentComplete;
 
 class FetchAllPayments extends AbstractResponse implements ResponseInterface
 {
@@ -43,7 +44,11 @@ class FetchAllPayments extends AbstractResponse implements ResponseInterface
             'ep_status' => 'status',
             'ep_message' => 'message',
             'ep_num_records' => 'recordCount',
-            'ref_detail' => array('records', function (array $payments) {
+            'ref_detail' => array('records', function (array $payments) use ($content) {
+                if($content['ep_num_records'] == 1) {
+                    return [PaymentComplete::fromArray($payments)];
+                }
+                
                 return FetchAllPayments::normalizePayments($payments);
             })
         ));
