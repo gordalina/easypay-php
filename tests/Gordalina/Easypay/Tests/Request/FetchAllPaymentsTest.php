@@ -74,13 +74,13 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('date', $params['ep_list_type']);
     }
 
-    public function testHandleResponseNormal()
+    public function testHandleResponseNormalWithMultipleRecords()
     {
         $request = new FetchAllPayments();
         $response = $request->handleResponse(array(
             'ep_status' => 'ok0',
             'ep_message' => 'message',
-            'ep_num_records' => 1,
+            'ep_num_records' => 2,
             'ref_detail' => array(
                 'ref' => array(
                     array(
@@ -105,6 +105,95 @@ class FetchAllPaymentsTest extends \PHPUnit_Framework_TestCase
                         'o_mobile' => 'mobile',
                         'ep_date' => 'date',
                     ),
+                    array(
+                        'ep_cin' => 'cin',
+                        'ep_user' => 'user',
+                        'ep_entity' => 'entity',
+                        'ep_reference' => 'reference',
+                        'ep_value' => '10.0',
+                        't_key' => '10.0',
+                        'ep_key' => '10.0',
+                        'ep_doc' => 'doc',
+                        'ep_payment_type' => 'paymentType',
+                        'ep_value_fixed' => 'valueFixed',
+                        'ep_value_var' => 'valueVariable',
+                        'ep_value_tax' => 'valueTax',
+                        'ep_value_transf' => 'valueTransfered',
+                        'ep_date_transf' => 'dateTransfered',
+                        'ep_date_read' => 'dateRead',
+                        'ep_status_read' => 'statusRead',
+                        'o_obs' => 'observations',
+                        'o_email' => 'email',
+                        'o_mobile' => 'mobile',
+                        'ep_date' => 'date',
+                    ),
+                ),
+            ),
+        ));
+
+        $this->assertInstanceOf('Gordalina\Easypay\Response\FetchAllPayments', $response);
+        $this->assertTrue($response->isValid());
+        $this->assertSame('ok0', $response->getStatus());
+        $this->assertSame('message', $response->getMessage());
+        $this->assertSame(2, $response->getRecordCount());
+
+        $payments = $response->getRecords();
+        $this->assertTrue(is_array($payments));
+
+        foreach ($payments as $payment) {
+            $this->assertInstanceOf('Gordalina\Easypay\Payment\PaymentComplete', $payment);
+            $this->assertSame('cin', $payment->getCin());
+            $this->assertSame('user', $payment->getUser());
+            $this->assertSame('entity', $payment->getEntity());
+            $this->assertSame('reference', $payment->getReference());
+            $this->assertSame(10.0, $payment->getValue());
+            $this->assertSame('10.0', $payment->getKey());
+            $this->assertSame(10, $payment->getEpKey());
+            $this->assertSame('doc', $payment->getDoc());
+            $this->assertSame('paymentType', $payment->getPaymentType());
+            $this->assertSame('valueFixed', $payment->getValueFixed());
+            $this->assertSame('valueVariable', $payment->getValueVariable());
+            $this->assertSame('valueTax', $payment->getValueTax());
+            $this->assertSame('valueTransfered', $payment->getValueTransfered());
+            $this->assertSame('dateTransfered', $payment->getDateTransfered());
+            $this->assertSame('dateRead', $payment->getDateRead());
+            $this->assertSame('statusRead', $payment->getStatusRead());
+            $this->assertSame('observations', $payment->getObservations());
+            $this->assertSame('email', $payment->getEmail());
+            $this->assertSame('mobile', $payment->getMobile());
+            $this->assertSame('date', $payment->getDate());
+        }
+    }
+
+    public function testHandleResponseNormalWithOneRecord()
+    {
+        $request = new FetchAllPayments();
+        $response = $request->handleResponse(array(
+            'ep_status' => 'ok0',
+            'ep_message' => 'message',
+            'ep_num_records' => 1,
+            'ref_detail' => array(
+                'ref' => array(
+                    'ep_cin' => 'cin',
+                    'ep_user' => 'user',
+                    'ep_entity' => 'entity',
+                    'ep_reference' => 'reference',
+                    'ep_value' => '10.0',
+                    't_key' => '10.0',
+                    'ep_key' => '10.0',
+                    'ep_doc' => 'doc',
+                    'ep_payment_type' => 'paymentType',
+                    'ep_value_fixed' => 'valueFixed',
+                    'ep_value_var' => 'valueVariable',
+                    'ep_value_tax' => 'valueTax',
+                    'ep_value_transf' => 'valueTransfered',
+                    'ep_date_transf' => 'dateTransfered',
+                    'ep_date_read' => 'dateRead',
+                    'ep_status_read' => 'statusRead',
+                    'o_obs' => 'observations',
+                    'o_email' => 'email',
+                    'o_mobile' => 'mobile',
+                    'ep_date' => 'date',
                 ),
             ),
         ));
