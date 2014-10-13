@@ -24,6 +24,12 @@
         </exclude>
     </groups>
 
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
     <!-- Set your credentials below and set EASYPAY_RUN_INTEGRATION_TESTS to true -->
     <php>
         <const name="EASYPAY_RUN_INTEGRATION_TESTS" value="false" />
