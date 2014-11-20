@@ -33,6 +33,11 @@ class Payment
     protected $type = self::TYPE_NORMAL;
 
     /**
+     * @var int
+     */
+    protected $maxDate;
+
+    /**
      * @var CustomerInfo
      */
     protected $customerInfo;
@@ -90,6 +95,17 @@ class Payment
         $this->type = $type;
     }
 
+    public function setMaxDate($maxDate)
+    {
+        $maxDate = (int) $maxDate;
+
+        if ($maxDate <= 0) {
+            throw new \InvalidArgumentException("Number of days must be greater than 0");
+        }
+
+        $this->maxDate = $maxDate;
+    }
+
     /**
      * @param CustomerInfo $customerInfo
      */
@@ -123,6 +139,14 @@ class Payment
     }
 
     /**
+     * @return string
+     */
+    public function getMaxDate()
+    {
+        return $this->maxDate;
+    }
+
+    /**
      * @return CustomerInfo
      */
     public function getCustomerInfo()
@@ -143,4 +167,5 @@ class Payment
             static::TYPE_MOTO,
         );
     }
+
 }

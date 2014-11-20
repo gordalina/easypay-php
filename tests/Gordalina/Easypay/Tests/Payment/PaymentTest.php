@@ -68,6 +68,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1.23, $payment->getValue());
     }
 
+    public function testMaxValueType()
+    {
+        $payment = new Payment();
+        $payment->setMaxDate("4");
+
+        $this->assertSame(4, $payment->getMaxDate());
+    }
+
     public function testGettersSetters()
     {
         $customerInfo = new CustomerInfo();
@@ -75,10 +83,12 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment();
         $payment->setValue(1.23);
         $payment->setKey('secret');
+        $payment->setMaxDate(3);
         $payment->setCustomerInfo($customerInfo);
 
         $this->assertSame(1.23, $payment->getValue());
         $this->assertSame('secret', $payment->getKey());
+        $this->assertSame(3, $payment->getMaxDate());
         $this->assertSame($customerInfo, $payment->getCustomerInfo());
     }
 
@@ -113,5 +123,23 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment->setValue(10);
 
         $this->assertTrue($payment->isValid());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testNegativeMaxDate()
+    {
+        $payment = new Payment();
+        $payment->setMaxDate(-1);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testZeroMaxDate()
+    {
+        $payment = new Payment();
+        $payment->setMaxDate(0);
     }
 }
