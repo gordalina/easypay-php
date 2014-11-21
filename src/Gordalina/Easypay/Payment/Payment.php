@@ -101,11 +101,11 @@ class Payment
      */
     public function setMaxDate($maxDate)
     {
-        $date = \DateTime::createFromFormat(static::MAX_DATE_FORMAT, $maxDate);
-        $isValid = $date && $date->format(static::MAX_DATE_FORMAT) == $maxDate;
+        $date = \DateTime::createFromFormat(self::MAX_DATE_FORMAT, $maxDate);
+        $isValid = $date && $date->format(self::MAX_DATE_FORMAT) == $maxDate;
 
         if (!$isValid) {
-            throw new \InvalidArgumentException('Maximum payment date must be in that format: '.static::MAX_DATE_FORMAT);
+            throw new \InvalidArgumentException('Maximum payment date must be in that format: '.self::MAX_DATE_FORMAT);
         }
 
         $this->maxDate = $maxDate;
