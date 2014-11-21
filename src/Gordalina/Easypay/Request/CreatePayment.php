@@ -70,7 +70,7 @@ class CreatePayment implements RequestInterface
             't_value' => strval($this->payment->getValue()),
             't_key' => $this->payment->getKey(),
         );
-
+	
         if ($this->payment->getCustomerInfo() instanceof CustomerInfo) {
             $parameters = array_merge($parameters, $this->payment->getCustomerInfo()->toArray());
         }
@@ -78,6 +78,12 @@ class CreatePayment implements RequestInterface
         // Optional authentication code
         if ($config->getCode()) {
             $parameters['s_code'] = $config->getCode();
+        }
+
+        // Optional maximum date for payment acceptance
+        if ($this->payment->getMaxDate()){
+            $parameters['o_max_date'] = $this->payment->getMaxDate();
+            $parameters['ep_partner'] = $config->getUser();
         }
 
         switch ($this->payment->getType()) {

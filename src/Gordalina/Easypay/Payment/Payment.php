@@ -16,6 +16,7 @@ class Payment
     const TYPE_NORMAL = 'normal';
     const TYPE_BOLETO = 'boleto';
     const TYPE_MOTO = 'moto';
+    const MAX_DATE_FORMAT = 'Y-m-d';
 
     /**
      * @var float
@@ -31,6 +32,11 @@ class Payment
      * @var string
      */
     protected $type = self::TYPE_NORMAL;
+
+    /**
+     * @var string
+     */
+    protected $maxDate;
 
     /**
      * @var CustomerInfo
@@ -91,6 +97,23 @@ class Payment
     }
 
     /**
+     * This method will define a due date for the payment
+     * @param $maxDate
+     * @throws \InvalidArgumentException If maxDate is not in the format defined in Payment::MAX_DATE_FORMAT
+     */
+    public function setMaxDate($maxDate)
+    {
+        $date = \DateTime::createFromFormat(self::MAX_DATE_FORMAT, $maxDate);
+        $isValid = $date && $date->format(self::MAX_DATE_FORMAT) == $maxDate;
+
+        if (!$isValid) {
+            throw new \InvalidArgumentException('Maximum payment date must be in that format: '.self::MAX_DATE_FORMAT);
+        }
+
+        $this->maxDate = $maxDate;
+    }
+
+    /**
      * @param CustomerInfo $customerInfo
      */
     public function setCustomerInfo(CustomerInfo $customerInfo)
@@ -123,6 +146,14 @@ class Payment
     }
 
     /**
+     * @return string
+     */
+    public function getMaxDate()
+    {
+        return $this->maxDate;
+    }
+
+    /**
      * @return CustomerInfo
      */
     public function getCustomerInfo()
@@ -143,4 +174,5 @@ class Payment
             static::TYPE_MOTO,
         );
     }
+
 }

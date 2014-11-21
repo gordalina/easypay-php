@@ -100,6 +100,30 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('key', $params['t_key']);
     }
 
+    public function testMaxDate()
+    {
+        $payment = new Payment();
+        $payment->setValue(10);
+        $payment->setKey('key');
+        $payment->setMaxDate('2014-11-21');
+
+        $request = new CreatePayment($payment);
+        $params = $request->handleRequest($this->getConfig());
+
+        $this->assertTrue(is_array($params));
+        $this->assertCount(10, $params);
+        $this->assertSame('cin', $params['ep_cin']);
+        $this->assertSame('user', $params['ep_user']);
+        $this->assertSame('entity', $params['ep_entity']);
+        $this->assertSame('language', $params['ep_language']);
+        $this->assertSame('country', $params['ep_country']);
+        $this->assertSame('auto', $params['ep_ref_type']);
+        $this->assertSame('10', $params['t_value']);
+        $this->assertSame('key', $params['t_key']);
+        $this->assertSame('2014-11-21', $params['o_max_date']);
+        $this->assertSame('user', $params['ep_partner']);
+    }
+
     public function testCustomerInfo()
     {
         $customerInfo = new CustomerInfo();
