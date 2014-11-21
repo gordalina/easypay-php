@@ -105,7 +105,7 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment();
         $payment->setValue(10);
         $payment->setKey('key');
-        $payment->setMaxDate(3);
+        $payment->setMaxDate('2014-11-21');
 
         $request = new CreatePayment($payment);
         $params = $request->handleRequest($this->getConfig());
@@ -120,7 +120,7 @@ class CreatePaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('auto', $params['ep_ref_type']);
         $this->assertSame('10', $params['t_value']);
         $this->assertSame('key', $params['t_key']);
-        $this->assertSame(3, $params['o_max_date']);
+        $this->assertSame('2014-11-21', $params['o_max_date']);
         $this->assertSame('user', $params['ep_partner']);
     }
 

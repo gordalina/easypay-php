@@ -21,6 +21,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('normal', Payment::TYPE_NORMAL);
         $this->assertSame('boleto', Payment::TYPE_BOLETO);
         $this->assertSame('moto', Payment::TYPE_MOTO);
+        $this->assertSame('Y-m-d', Payment::MAX_DATE_FORMAT);
     }
 
     public function testDefaultType()
@@ -68,14 +69,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1.23, $payment->getValue());
     }
 
-    public function testMaxValueType()
-    {
-        $payment = new Payment();
-        $payment->setMaxDate("4");
-
-        $this->assertSame(4, $payment->getMaxDate());
-    }
-
     public function testGettersSetters()
     {
         $customerInfo = new CustomerInfo();
@@ -83,12 +76,12 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment();
         $payment->setValue(1.23);
         $payment->setKey('secret');
-        $payment->setMaxDate(3);
+        $payment->setMaxDate('2014-11-29');
         $payment->setCustomerInfo($customerInfo);
 
         $this->assertSame(1.23, $payment->getValue());
         $this->assertSame('secret', $payment->getKey());
-        $this->assertSame(3, $payment->getMaxDate());
+        $this->assertSame('2014-11-29', $payment->getMaxDate());
         $this->assertSame($customerInfo, $payment->getCustomerInfo());
     }
 
@@ -128,18 +121,37 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testNegativeMaxDate()
+    public function testInvalidMaxDate()
     {
         $payment = new Payment();
-        $payment->setMaxDate(-1);
+        $payment->setMaxDate('10-02-2014');
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testZeroMaxDate()
+    public function testInvalidMaxDateDay()
     {
         $payment = new Payment();
-        $payment->setMaxDate(0);
+        $payment->setMaxDate('2014-02-31');
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidMaxDateMonth()
+    {
+        $payment = new Payment();
+        $payment->setMaxDate('2014-13-10');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidMaxDateYear()
+    {
+        $payment = new Payment();
+        $payment->setMaxDate('14-11-21');
+    }
+
 }

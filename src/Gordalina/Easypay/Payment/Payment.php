@@ -16,6 +16,7 @@ class Payment
     const TYPE_NORMAL = 'normal';
     const TYPE_BOLETO = 'boleto';
     const TYPE_MOTO = 'moto';
+    const MAX_DATE_FORMAT = 'Y-m-d';
 
     /**
      * @var float
@@ -33,7 +34,7 @@ class Payment
     protected $type = self::TYPE_NORMAL;
 
     /**
-     * @var int
+     * @var string
      */
     protected $maxDate;
 
@@ -95,12 +96,16 @@ class Payment
         $this->type = $type;
     }
 
+    /**
+     * @param $maxDate
+     */
     public function setMaxDate($maxDate)
     {
-        $maxDate = (int) $maxDate;
+        $date = \DateTime::createFromFormat(static::MAX_DATE_FORMAT, $maxDate);
+        $isValid = $date && $date->format(static::MAX_DATE_FORMAT) == $maxDate;
 
-        if ($maxDate <= 0) {
-            throw new \InvalidArgumentException("Number of days must be greater than 0");
+        if (!$isValid) {
+            throw new \InvalidArgumentException('Maximum payment date must be in that format: '.static::MAX_DATE_FORMAT);
         }
 
         $this->maxDate = $maxDate;
