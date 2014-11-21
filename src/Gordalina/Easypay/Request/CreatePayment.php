@@ -80,7 +80,7 @@ class CreatePayment implements RequestInterface
             $parameters['s_code'] = $config->getCode();
         }
 
-        // Optional MB max date
+        // Optional maximum date for payment acceptance
         if ($this->payment->getMaxDate()){
             $parameters['o_max_date'] = $this->payment->getMaxDate();
             $parameters['ep_partner'] = $config->getUser();

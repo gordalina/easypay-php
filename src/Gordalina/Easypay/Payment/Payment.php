@@ -97,7 +97,9 @@ class Payment
     }
 
     /**
+     * This method will define a due date for the payment
      * @param $maxDate
+     * @throws \InvalidArgumentException If maxDate is not in the format defined in Payment::MAX_DATE_FORMAT
      */
     public function setMaxDate($maxDate)
     {
