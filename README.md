@@ -1,10 +1,10 @@
 # Easypay-PHP
 
-[![Build Status](https://travis-ci.org/gordalina/easypay-php.png?branch=master)](https://travis-ci.org/gordalina/easypay-php)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/gordalina/easypay-php/badges/quality-score.png?s=b160bd0c381c891e46f8afc603dc00ff9b60c5e7)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
-[![Code Coverage](https://scrutinizer-ci.com/g/gordalina/easypay-php/badges/coverage.png?s=8661545b6e1ea5f183803dad32aa50889fbe1ab4)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
-[![SensioLabs Insight](https://insight.sensiolabs.com/projects/51d49507-e75e-48e3-8e33-0c161212e830/mini.png)](https://insight.sensiolabs.com/projects/51d49507-e75e-48e3-8e33-0c161212e830)
-[![Codacy Badge](https://www.codacy.com/project/badge/5c388aedeea8ce7fd9b67c6f371ac1ad)](https://www.codacy.com/public/gordalina/easypayphp)
+[![Build Status](https://img.shields.io/travis/gordalina/easypay-php.svg)](https://travis-ci.org/gordalina/easypay-php)
+[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/gordalina/easypay-php.svg)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/gordalina/easypay-php.svg)](https://scrutinizer-ci.com/g/gordalina/easypay-php/)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/51d49507-e75e-48e3-8e33-0c161212e830.svg)](https://insight.sensiolabs.com/projects/51d49507-e75e-48e3-8e33-0c161212e830)
+[![Codacy Badge](https://img.shields.io/codacy/5c388aedeea8ce7fd9b67c6f371ac1ad.svg)](https://www.codacy.com/public/gordalina/easypayphp)
 
 This library provides a simple API to communicate with [Easypay](http://easypay.pt/)
 
